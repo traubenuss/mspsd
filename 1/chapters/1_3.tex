@@ -1,1 +1,60 @@
 \section{Sampling and Reconstruction} 
+
+\subsection{$x_s(t)$}
+
+\begin{eqnarray*}
+x_s(t) & = & x_c(t) \* s(t) \\
+       & = & x_c(t) \* T \sum_{n=-\infty}^{\infty} \delta (t-nT) \\
+       & \overset{\text{masking prop.}}{=}  & T \sum_{n=-\infty}^{\infty} x_c(nT) \* \delta (t-nT)
+\end{eqnarray*}
+
+
+\subsection{$X_s(j\Omega)$}
+
+Fourier Series of $s(t)$:
+
+\begin{eqnarray*}
+s(t) & = & \sum_{k=-\infty}^{\infty} A_k \* e^{j2\pi k t \* \frac{1}{T}}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+A_k & = & \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} T \sum_{n=-\infty}^{\infty} \underbrace{\delta (t-nT) e^{-j \frac{2\pi}{T}kt}}_{\text{masking property}}  dt \\
+& = & \frac{T}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} \sum_{n=-\infty}^{\infty} \delta (t-nT) e^{-j \frac{2\pi}{T}k\* nT} dt \\
+& = & \sum_{n=-\infty}^{\infty}  e^{-j \frac{2\pi}{T}k\* nT} \underbrace{\int_{-\frac{T}{2}}^{\frac{T}{2}}  \delta (t-nT) dt}_{\text{1 for n=0, 0 else}} \\
+& = & e^{-j 2 \pi k 0 } = 1 \quad \forall k
+\end{eqnarray*}
+
+With $\Omega_s = \frac{2\pi}{T}$ $s(t)$ can be written as
+\begin{eqnarray*}
+s(t) & = & \sum_{k=-\infty}^{\infty} e^{j \Omega_s k t}
+\end{eqnarray*}
+
+Now the representation as Fourier Series can be transformed to the frequency domain.
+
+\begin{eqnarray*}
+S(j\Omega) & = & \int_{-\infty}^{\infty} s(t) \* e^{-j \Omega t} dt \\
+ & = & \int_{-\infty}^{\infty} \sum_{k=-\infty}^{\infty} e^{j \Omega_s k t} \* e^{-j \Omega t} dt \\
+ & = & \sum_{k=-\infty}^{\infty}  \int_{-\infty}^{\infty} e^{j \Omega_s k t} \* e^{-j \Omega t} dt 
+\end{eqnarray*}
+
+$e^{j \Omega_s k t}$ can be exchanged by
+\begin{eqnarray*}
+e^{j \Omega_s k t} =  \int_{-\infty}^{\infty} \delta(\Omega - k\Omega_s) e^{j \Omega t} dt
+\end{eqnarray*}
+due to the masking property of the delta impulse. This leads to
+
+\begin{eqnarray*}
+S(j\Omega) & = & \sum_{k=-\infty}^{\infty}  \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \delta(\Omega - k\Omega_s) e^{j \Omega t} dt \* e^{-j \Omega t} dt \\
+S(j\Omega) & = & \sum_{k=-\infty}^{\infty}  \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \delta(\Omega - k\Omega_s) e^{j \Omega t} \* e^{-j \Omega t} dt dt \\
+S(j\Omega) & = & \sum_{k=-\infty}^{\infty}  \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \delta(\Omega - k\Omega_s) \underbrace{e^{j (\Omega t-\Omega t)}}_{=1} dt dt \\
+S(j\Omega) & = & \sum_{k=-\infty}^{\infty} \delta(\Omega - k\Omega_s)
+\end{eqnarray*}
+
+In order to get $X_s(j\Omega)$, $X_c(j\Omega)$ and $S(j\Omega)$ are convoluted
+\begin{eqnarray*}
+X_s(j\Omega) & = & X_c(j\Omega) \ast S(j\Omega) \\
+X_s(j\Omega) & = & X_c(j\Omega) \ast \sum_{k=-\infty}^{\infty} \delta(\Omega - k\Omega_s) \\
+X_s(j\Omega) & \overset{\text{shifting prop.}}{=} & \sum_{k=-\infty}^{\infty} X_c(j(\Omega-k\Omega_s) )
+\end{eqnarray*}
+
+
