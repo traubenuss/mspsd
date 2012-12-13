@@ -1,6 +1,6 @@
 \section{Sampling and Reconstruction} 
 
-\subsection{$x_s(t)$}
+\subsection{Sampled Signal $x_s(t)$}
 
 \begin{eqnarray*}
 x_s(t) & = & x_c(t) \* s(t) \\
@@ -9,7 +9,7 @@ x_s(t) & = & x_c(t) \* s(t) \\
 \end{eqnarray*}
 
 
-\subsection{$X_s(j\Omega)$}
+\subsection{Sampled Signal in the Frequency Domain $X_s(j\Omega)$}
 
 Fourier Series of $s(t)$:
 \begin{eqnarray*}
@@ -54,9 +54,9 @@ X_s(j\Omega) & = & \frac{1}{2\pi} \quad X_c(j\Omega) \ast S(j\Omega) \\
  & \overset{\text{shifting prop.}}{=} & \sum_{k=-\infty}^{\infty} X_c(j(\Omega-k\Omega_s) )
 \end{eqnarray*}
 
-\subsection{Ideal reconstruction filter}
+\subsection{Ideal Reconstruction Filter $H_r(j\Omega), h_r(t)$}
 
-An ideal reconstruction filter is supposed to recover exactly the input signal, when the sampled signal is convolved by the impulse response of this filter in the time domain. In the frequency domain, a convolution in the time domain corresponds to a multiplication. This leads to the following constraint on the ideal reconstruction filter:
+An ideal reconstruction filter is supposed to recover exactly the input signal, when the sampled signal is convolved with the impulse response of this filter in the time domain. In the frequency domain, a convolution in the time domain corresponds to a multiplication. This leads to the following constraint on the ideal reconstruction filter:
 \begin{eqnarray*}
 X_s(j\Omega) \* H_r(j\Omega) & \overset{!}{=} & X_c(j\Omega)
 \end{eqnarray*}
@@ -87,7 +87,7 @@ h_r(t) & = & \mathcal{F}^{-1}(H_r(j\Omega))\\
 & = & \frac{1}{T} \* sinc\left(\frac{\pi}{T}\* t\right)
 \end{eqnarray*}
 
-\subsection{The reconstructed signal $x_r(t)$}
+\subsection{The Reconstructed Signal $x_r(t)$}
 
 To calculate the reconstructed signal in time domain, the convolution of the sampled signal and the impulse response of the reconstruction filter is evaluated.
 
@@ -115,7 +115,7 @@ or
 s_2(t) & = & \sum_{n=-\infty}^{\infty} \delta (t-nT)
 \end{eqnarray*}
 
-we can take a closer look to the argument of the delta distribution. In the first place it is essential to analyse at which parameter $t$ the argument equals zero. In the case of $s(t)$ its
+we take a closer look to the argument of the delta distribution. In the first place it is essential to analyse at which parameter $t$ the argument equals zero. In the case of $s(t)$ its
 \begin{eqnarray*}
 \frac{t}{T}-n & \overset{!}{=} & 0 \\
 t & = & n\*T
@@ -125,7 +125,7 @@ In case of $s_1(t)$ and $s_2(t)$ we get
 t-nT & \overset{!}{=} & 0 \\
 t & = & n\*T
 \end{eqnarray*}
-So there is no difference between the three delta distribution. Hence the first intuition is that $s(t)$ corresponds to $s_2(t)$, but it seems quite uncommon to claim $T \* \infty \neq \infty$ (at $n = 0$). To achieve a more mathematical reasoning, the Fourier Series Expansion can be investigated. For $s_1(t)$ it was already shown that the Fourier Series is
+So there is no difference between the behaviours of the delta distributions. Hence the first intuition is that $s(t)$ corresponds to $s_2(t)$, but it seems quite uncommon to claim $T \* \infty \neq \infty$ (at $n = 0$). To achieve a more mathematical reasoning, the Fourier Series Expansion can be investigated. For $s_1(t)$ it was already shown that the Fourier Series is
 
 \begin{eqnarray*}
 s(t) & = & \sum_{k=-\infty}^{\infty} A_k \* e^{j2\pi k t \* \frac{1}{T}}
@@ -146,8 +146,8 @@ A_k & = & \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} \sum_{n=-\infty}^{\infty
 & = & \frac{1}{T} \sum_{n=-\infty}^{\infty}  e^{-j \frac{2\pi}{T}k\* nT} \underbrace{\int_{-\frac{T}{2}}^{\frac{T}{2}}  \delta (t-nT) dt}_{\text{1 for n=0, 0 else}} \\
 & = & \frac{1}{T} e^{-j 2 \pi k 0 } = \frac{1}{T} \quad \forall k
 \end{eqnarray*}
-so $s(t)$ corresponds to $s_2(t)$.
+so $s(t)$ corresponds to $s_2(t)$ and $s_1(t)$ is really a different sampling signal.
 
-If we would prefer $s_1(t) = T \sum_{n=-\infty}^{\infty} \delta (t-nT)$ or $s_2(t) = \sum_{n=-\infty}^{\infty} \delta (t-nT)$ as sampling signal depends somehow on the application.\\
+If we would prefer $s_1(t) = T \sum_{n=-\infty}^{\infty} \delta (t-nT)$ or $s_2(t) = \sum_{n=-\infty}^{\infty} \delta (t-nT)$ as sampling signal, depends somehow on the application.\\
 When using $s_1(t)$, $x_s(t)$ consists of values of $x_c(t)$ at $t=n \* T$ scaled by $T$, whereas $X_s(j\Omega)$ contains unscaled values of $X_c(j\Omega)$ at $\Omega = k \* \Omega_s$.\\
 On the opposite, using $s_2(t)$ would force $x_s(t)$ to be an unscaled sampled version of $x_c(t)$ in the time domain, whereas in the frequency domain $X_s(j\Omega)$ would be a scaled sampled version of $X_c(j\Omega)$ by the factor $\frac{1}{T}$.
