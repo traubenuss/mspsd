@@ -1,1 +1,153 @@
 \section{Sampling and Reconstruction} 
+
+\subsection{Sampled Signal $x_s(t)$}
+
+\begin{eqnarray*}
+x_s(t) & = & x_c(t) \* s(t) \\
+       & = & x_c(t) \* T \sum_{n=-\infty}^{\infty} \delta (t-nT) \\
+       & \overset{\text{masking}}{=}  & T \sum_{n=-\infty}^{\infty} x_c(nT) \* \delta (t-nT)
+\end{eqnarray*}
+
+
+\subsection{Sampled Signal in the Frequency Domain $X_s(j\Omega)$}
+
+Fourier Series of $s(t)$:
+\begin{eqnarray*}
+s(t) & = & \sum_{k=-\infty}^{\infty} A_k \* e^{j2\pi k t \* \frac{1}{T}}
+\end{eqnarray*}
+with
+\begin{eqnarray*}
+A_k & = & \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} T \sum_{n=-\infty}^{\infty} \delta (t-nT) e^{-j \frac{2\pi}{T}kt}  dt \\
+& = & \frac{T}{T}  \sum_{n=-\infty}^{\infty} \int_{-\frac{T}{2}}^{\frac{T}{2}} \underbrace{\delta (t-nT) e^{-j \frac{2\pi}{T}k\* t}}_{\text{masking property}} dt \\
+& = & \sum_{n=-\infty}^{\infty}  e^{-j \frac{2\pi}{T}k\* nT} \underbrace{\int_{-\frac{T}{2}}^{\frac{T}{2}}  \delta (t-nT) dt}_{\text{1 for n=0, 0 else}} \\
+& = & e^{-j 2 \pi k 0 } = 1 \quad \forall k
+\end{eqnarray*}
+
+With $\Omega_s = \frac{2\pi}{T}$, $s(t)$ can be written as
+\begin{eqnarray*}
+s(t) & = & \sum_{k=-\infty}^{\infty} e^{j \Omega_s k t}
+\end{eqnarray*}
+
+Now the representation as Fourier Series can be transformed to the frequency domain using the non-unitary Fourier transform with angular frequency.
+
+\begin{eqnarray*}
+S(j\Omega) & = & \int_{-\infty}^{\infty} s(t) \* e^{-j \Omega t} dt \\
+ & = & \int_{-\infty}^{\infty} \sum_{k=-\infty}^{\infty} e^{j \Omega_s k t} \* e^{-j \Omega t} dt \\
+ & = & \sum_{k=-\infty}^{\infty}  \underbrace{\int_{-\infty}^{\infty} e^{j \Omega_s k t} \* e^{-j \Omega t} dt}_{\text{Fourier transform of }e^{j \Omega_s k t}}
+\end{eqnarray*}
+According to the Fourier transformation table we know, that
+\begin{eqnarray*}
+e^{j \Omega_s k t} \qquad \laplace \qquad 2\pi \delta(\Omega - k\Omega_s)
+\end{eqnarray*}
+
+Hence, the transformed sampling signal equals
+\begin{eqnarray*}
+S(j\Omega) & = & \sum_{k=-\infty}^{\infty} 2\pi \delta(\Omega - k\Omega_s) \\
+& = & 2\pi \sum_{k=-\infty}^{\infty} \delta(\Omega - k\Omega_s)
+\end{eqnarray*}
+
+In order to get $x_c(t) \* s(t) = x_s(t)$ in the frequency domain (further denoted as $X_s(j\Omega)$), $X_c(j\Omega)$ and $S(j\Omega)$ are convolved and rescaled by $\frac{1}{2\pi}$ according to the definition for non-unitary Fourier transform with angular frequency
+\begin{eqnarray*}
+X_s(j\Omega) & = & \frac{1}{2\pi} \quad X_c(j\Omega) \ast S(j\Omega) \\
+ & = & \frac{1}{2\pi} \quad X_c(j\Omega) \ast 2\pi \sum_{k=-\infty}^{\infty} \delta(\Omega - k\Omega_s) \\
+ & = & \frac{1}{2\pi} \quad 2\pi \sum_{k=-\infty}^{\infty} X_c(j\Omega) \ast \delta(\Omega - k\Omega_s) \\
+ & \overset{\text{shifting prop.}}{=} & \sum_{k=-\infty}^{\infty} X_c(j(\Omega-k\Omega_s) )
+\end{eqnarray*}
+
+\subsection{Ideal Reconstruction Filter $H_r(j\Omega), h_r(t)$}
+
+An ideal reconstruction filter is supposed to recover exactly the input signal, when the sampled signal is convolved with the impulse response of this filter in the time domain. In the frequency domain, a convolution in the time domain corresponds to a multiplication. This leads to the following constraint on the ideal reconstruction filter:
+\begin{eqnarray*}
+X_s(j\Omega) \* H_r(j\Omega) & \overset{!}{=} & X_c(j\Omega)
+\end{eqnarray*}
+
+With $X_s(j\Omega) = \sum_{k=-\infty}^{\infty} X_c(j(\Omega-k\Omega_s) )$ we get
+\begin{eqnarray*}
+X_c(j\Omega) & \overset{!}{=} &  \sum_{k=-\infty}^{\infty} X_c(j(\Omega-k\Omega_s) ) \* H_r(j\Omega) \\
+& = & X_c(j(\Omega-0\*\Omega_s) ) \* H_r(j\Omega) +  \sum_{\underset{\forall k \neq 0}{k=-\infty}}^{\infty} X_c(j(\Omega-k\Omega_s) ) \* H_r(j\Omega) \\
+& = & X_c(j\Omega ) \* H_r(j\Omega) +  \underbrace{\sum_{\underset{\forall k \neq 0}{k=-\infty}}^{\infty} X_c(j(\Omega-k\Omega_s) ) \* H_r(j\Omega)}_{\overset{!}{=} 0 \ \Rightarrow \ H_r(j\Omega) = 0, |\Omega| \geq \frac{\Omega_s}{2}} \\
+X_c(j\Omega) & = & X_c(j\Omega ) \* H_r(j\Omega) \\
+& \Rightarrow & H_r(j\Omega) \overset{!}{=} 1, |\Omega| < \frac{\Omega_s}{2} \\
+& \Rightarrow & H_r(j\Omega) = \left\{ \begin{array}{rl}
+1 &\mbox{ if $|\Omega| < \frac{\Omega_s}{2}$} \\
+0 &\mbox{ otherwise}
+\end{array} \right.
+\end{eqnarray*}
+
+To determine the impulse response $h_r(t)$ of the reconstruction filter in the time domain, the inverse Fourier transform is used
+\begin{eqnarray*}
+h_r(t) & = & \mathcal{F}^{-1}(H_r(j\Omega))\\
+& = & \frac{1}{2\pi} \int_{-\infty}^{\infty} H_r(j\Omega) \* e^{j \Omega t} d\Omega \\
+& = & \frac{1}{2\pi} \int_{-\frac{\Omega_s}{2}}^{\frac{\Omega_s}{2}} 1 \* e^{j \Omega t} d\Omega \\
+& = & \frac{1}{2\pi} \left. \left( \frac{1}{jt}  \* e^{j \Omega t} \right) \right|_{\Omega= -\frac{\Omega_s}{2}}^{\frac{\Omega_s}{2}} \\
+& = & \frac{1}{2\pi} \* \frac{1}{jt} \underbrace{\left( e^{j \frac{\Omega_s}{2} t} - e^{-j \frac{\Omega_s}{2} t} \right)}_{2j\*sin(\frac{\Omega_s t}{2})} \\
+& = & \frac{2j}{2\pi jt} sin\left(\frac{\Omega_s t}{2}\right), \qquad \Omega_s = \frac{2\pi}{T}\\
+& = & \frac{1}{\pi t} sin\left(\frac{\pi}{T}\* t\right) \\
+& = & \frac{1}{T} \* \frac{1}{\frac{\pi}{T} \* t} sin\left(\frac{\pi}{T}\* t\right) \\
+& = & \frac{1}{T} \* sinc\left(\frac{\pi}{T}\* t\right)
+\end{eqnarray*}
+
+\subsection{The Reconstructed Signal $x_r(t)$}
+
+To calculate the reconstructed signal in time domain, the convolution of the sampled signal and the impulse response of the reconstruction filter is evaluated.
+
+\begin{eqnarray*}
+x_r(t) & = & x_s(t) \ast h_r(t) \\
+& = & \int_{-\infty}^{\infty} x_s(\tau) \* h_r(t-\tau) d\tau \\
+& = & \int_{-\infty}^{\infty} T \sum_{n=-\infty}^{\infty} x_c(nT) \* \delta (\tau-nT) \* \frac{1}{T} \* sinc\left(\frac{\pi}{T}\* \tau\right) d\tau \\
+& = &  \sum_{n=-\infty}^{\infty} x_c(nT) \int_{-\infty}^{\infty} \delta (\tau-nT) \* sinc\left(\frac{\pi}{T}\* \tau\right) d\tau  \\
+& \overset{\text{masking prop.}}{=} &  \sum_{n=-\infty}^{\infty} x_c(nT) sinc\left(\frac{\pi}{T}\* (t-nT)\right) \\
+& = &  \sum_{n=-\infty}^{\infty} x_c(nT) sinc\left(\pi \left(\frac{t}{T}-n\right)\right)
+\end{eqnarray*}
+
+\subsection{Sampling Signal Correspondence}
+
+To determine if
+\begin{eqnarray*}
+s(t) & = & \sum_{n=-\infty}^{\infty} \delta \left(\frac{t}{T}-n\right)
+\end{eqnarray*}
+corresponds to
+\begin{eqnarray*}
+s_1(t) & = & T \sum_{n=-\infty}^{\infty} \delta (t-nT)
+\end{eqnarray*}
+or
+\begin{eqnarray*}
+s_2(t) & = & \sum_{n=-\infty}^{\infty} \delta (t-nT)
+\end{eqnarray*}
+
+we take a closer look to the argument of the delta distribution. In the first place it is essential to analyse at which parameter $t$ the argument equals zero. In the case of $s(t)$ its
+\begin{eqnarray*}
+\frac{t}{T}-n & \overset{!}{=} & 0 \\
+t & = & n\*T
+\end{eqnarray*}
+In case of $s_1(t)$ and $s_2(t)$ we get
+\begin{eqnarray*}
+t-nT & \overset{!}{=} & 0 \\
+t & = & n\*T
+\end{eqnarray*}
+So there is no difference between the behaviours of the delta distributions. Hence the first intuition is that $s(t)$ corresponds to $s_2(t)$, but it seems quite uncommon to claim $T \* \infty \neq \infty$ (at $n = 0$). To achieve a more mathematical reasoning, the Fourier Series Expansion can be investigated. For $s_1(t)$ it was already shown that the Fourier Series is
+
+\begin{eqnarray*}
+s(t) & = & \sum_{k=-\infty}^{\infty} A_k \* e^{j2\pi k t \* \frac{1}{T}}
+\end{eqnarray*}
+with
+\begin{eqnarray*}
+A_k & = & 1 \quad \forall k
+\end{eqnarray*}
+
+For $s(t)$ and $s_2(t)$ the Fourier Series is determined as
+\begin{eqnarray*}
+s_{(2)}(t) & = & \sum_{k=-\infty}^{\infty} A_k \* e^{j2\pi k t \* \frac{1}{T}}
+\end{eqnarray*}
+with
+\begin{eqnarray*}
+A_k & = & \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} \sum_{n=-\infty}^{\infty} \delta (t-nT) e^{-j \frac{2\pi}{T}kt}  dt \\
+& = & \frac{1}{T}  \sum_{n=-\infty}^{\infty} \int_{-\frac{T}{2}}^{\frac{T}{2}} \underbrace{\delta (t-nT) e^{-j \frac{2\pi}{T}k\* t}}_{\text{masking property}} dt \\
+& = & \frac{1}{T} \sum_{n=-\infty}^{\infty}  e^{-j \frac{2\pi}{T}k\* nT} \underbrace{\int_{-\frac{T}{2}}^{\frac{T}{2}}  \delta (t-nT) dt}_{\text{1 for n=0, 0 else}} \\
+& = & \frac{1}{T} e^{-j 2 \pi k 0 } = \frac{1}{T} \quad \forall k
+\end{eqnarray*}
+so $s(t)$ corresponds to $s_2(t)$ and $s_1(t)$ is really a different sampling signal.
+
+If we would prefer $s_1(t) = T \sum_{n=-\infty}^{\infty} \delta (t-nT)$ or $s_2(t) = \sum_{n=-\infty}^{\infty} \delta (t-nT)$ as sampling signal, depends somehow on the application.\\
+When using $s_1(t)$, $x_s(t)$ consists of values of $x_c(t)$ at $t=n \* T$ scaled by $T$, whereas $X_s(j\Omega)$ contains unscaled values of $X_c(j\Omega)$ at $\Omega = k \* \Omega_s$.\\
+On the opposite, using $s_2(t)$ would force $x_s(t)$ to be an unscaled sampled version of $x_c(t)$ in the time domain, whereas in the frequency domain $X_s(j\Omega)$ would be a scaled sampled version of $X_c(j\Omega)$ by the factor $\frac{1}{T}$.
