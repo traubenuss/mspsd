@@ -1,1 +1,109 @@
 \section{Signals and Systems} 
+
+\paragraph{a)}
+
+$z^t$ is an eigensignal of a LTI system. It can be shown using the input/output relation of an
+LTI system (convolution).
+
+An Eigensignal has to satisfy the following condition:
+
+\begin{equation}
+ y(t) = H\{x(t)\} = \underbrace{\lambda}_{Eigenvalue} \* \underbrace{x(t)}_{Eigensignal}
+\end{equation}
+
+Setting $x(t)$ to $z^t$ leads to the following:
+\begin{equation}
+ y(t) = \int_{-\infty}^{\infty} x(t-\tau ) \* h(\tau ) d \tau = 
+ \int_{-\infty}^{\infty} z^{t-\tau} \* h(\tau ) d \tau = 
+ \underbrace{z^t}_{Eigensignal} \* \underbrace{ \int_{-\infty}^{\infty} z^{-\tau} \* h(\tau ) d \tau }_{Eigenvalue}
+\end{equation}
+
+You can see at the equation above, that an eigensignal $z^t$ at the input of a LTI, leads
+to the scaled Eigensignal at the ouput. The Eigensignal will be scaled by the Eigenvalue.
+
+
+\begin{equation}
+ z^t = e^{ln(z) \* t}
+\end{equation}
+Relation between $s$ and $z$:
+\begin{equation}
+ s = ln(z)
+\end{equation}
+
+
+\paragraph{b)}
+To find the impulse response $h[n]$ of the system given by the difference equation, we perform
+a z transformation of the given difference equation.
+
+\begin{equation}
+ a_1 \* Y(z) = b_2 \* X(z) \* z^{-1} + b_1 \* X(z) + b_0 + a_2 \* Y(z) z^{-1}
+\end{equation}
+
+\begin{equation}
+Y(z) \* [a_1 - a_2 \* z^{-1}]= X(z) \* [b_2 \* z^{-1} + b_1] + b_0
+\label{eq:sysz}
+\end{equation}
+
+
+As you can see, at the equation above, you cannot find an expression for the relation
+$H(z) = \frac{Y(z)}{X(z)}$. I claim that the given system is time-variant and non linear, and therefore we can not
+find an expression for $h[n]$ (i.e $H(Z)$).
+
+The system is non-linear, because it does not meet the homogeneity condition ($f(a \* x) = a \* f(x)$).
+Multiplying the input $X(z)$ by a factor $a$ does not lead to the output $a \* Y(z)$
+
+To proof that the system is time-variant, we have to show that the condition
+for time-invariance will not be fulfilled for any signal $x(t)$.
+
+Time Invariance: (for any signal $x[n]$)
+
+\begin{equation}
+ y[n] = H\{x[n]\} => y[n-k] = H\{x[n-k]\}
+\end{equation}
+
+So let's proof it:
+
+$$x[n] \laplace X(z)$$
+$$x[n-k] \laplace z^{-k} X(z)$$
+$$y[n] \laplace Y(z)$$
+$$y[n-k] \laplace z^{-k} Y(z)$$
+
+Replacing $x[n]$ by $x[n-k]$ in Equation \ref{eq:sysz} should lead to $y[n-k]$,
+But this is a different equation:
+
+\begin{equation}
+z^{-k}Y(z) \* [a_1 - a_2 \* z^{-1}]= z^{-k}X(z) \* [b_2 \* z^{-1} + b_1] + b_0
+\end{equation}
+
+But as you can see, this equation is different than the Equation \ref{eq:sysz}.
+
+\begin{equation}
+Y(z) \* [a_1 - a_2 \* z^{-1}]= X(z) \* [b_2 \* z^{-1} + b_1] + z^{-k}b_0
+\end{equation}
+
+\paragraph{c)}
+
+\begin{equation}
+ y(t) = \int_{-\infty}^{\infty} h(t,\hat{\tau}) \* x(t-\hat{\tau}) d\hat{\tau}
+\end{equation}
+
+Let's calculate the output $\hat{h}(t,\tau)$ of the system, by inserting $x(t) = \delta(t-\tau)$
+into the equation above.
+
+\begin{equation}
+ \hat{h}(t,\tau) = \int_{-\infty}^{\infty} h(t,\hat{\tau}) \* \delta(t-\tau - \hat{\tau}) d\hat{\tau}
+\end{equation}
+
+The dirac-delta $\delta(t-\tau - \hat{\tau})$ is nonzero for $\hat{\tau} = t-\tau$:
+
+\begin{equation}
+ \hat{h}(t,\tau) = h(t,t-\tau)
+\end{equation}
+
+
+\paragraph{d)}
+
+
+The second impulse response
+
+
