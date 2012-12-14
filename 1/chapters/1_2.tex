@@ -12,11 +12,16 @@ at 24kHz. Therefore, we can be sure that all frequencies above 24kHz will be att
 To make sure that all aliasing-components are below 60dB, we have to use a sampling frequency of at least
 $2*24kHz = 48kHz$.
 
+\textbf{NOTE:} From the bode diagram, you can see that the actual frequency response, is ``better'' than
+the specification. The 60dB stop-band attenuation is already reached at a frequency below 24 kHz.
+In the calculation above, we assumed that the stop-band ``starts'' at 24 kHz. For this reason we have
+some kind of reserve. For instance the frequency response may change a little bit due to quantization of the coefficients.
+
 \paragraph{c)}
 
-Like in task \textbf{a} matlab was used to find the filter coefficients for the same specification,
+Like in task \textbf{a}, matlab was used to find the filter coefficients for the same specification,
 but with a filter order fixed to 4. From the bode diagram in Figure \ref{fig:2_c_bode}, you
-can see that all frequencies above approximately $51.5 kHz$ have a attenuation of more the 60dB.
+can see that all frequencies above approximately $51.5 kHz$ have an attenuation of more the 60dB.
 So, for this filter, we have to use a sampling frequency of $2 \* 51.5 kHz = 103 kHz$ to 
 achieve an attenuation of 60 dB for out-of-band distortion.
 
