@@ -14,10 +14,26 @@ disp(['minimum order: ', num2str(N)]);
 H = tf(B,A);
 
 figure;
-bode(H);
+bode(H)
+[mag, phase, omega] = bode(H);
+mag = mag(:);
+phase = phase(:);
+
 
 figure;
-grpdelay(B,A, 's');
+%grpdelay(B,A, 's');
+
+% forward differences for derivation of the phase: dphi/dw
+% phase: degree, w: rad/sec -> pi/180*degree/(rad/sec) = sec
+group_delay = zeros(size(phase,1), 1);
+group_delay(2:end) = -pi/180*(phase(1:end-1)-phase(2:end))./(omega(1:end-1)-omega(2:end));
+group_delay(1) = group_delay(2);
+semilogx(omega, group_delay)
+grid on
+ylabel('Group Delay (sec)')
+xlabel('Frequency (rad/sec)')
+title('Group Delay')
+
 
 figure;
 pzmap(H);
