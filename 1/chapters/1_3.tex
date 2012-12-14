@@ -2,7 +2,7 @@
 
 \subsection{Sampled Signal $x_s(t)$}
 
-The sampled signal is formed by multiplying the continuous input signal with the sampling signal in the time domain. As the dirac delta is defined as 0 when its argument $\neq 0$, it has a masking characteristic.
+The sampled signal is calculated by multiplying the continuous input signal with the sampling signal in the time domain. As the dirac delta is defined as 0 when its argument $\neq 0$, it has a masking characteristic.
 \begin{eqnarray*}
 x_s(t) & = & x_c(t) \* s(t) \\
        & = & x_c(t) \* T \sum_{n=-\infty}^{\infty} \delta (t-nT) \\
@@ -12,7 +12,7 @@ x_s(t) & = & x_c(t) \* s(t) \\
 
 \subsection{Sampled Signal in the Frequency Domain $X_s(j\Omega)$}
 
-As the sampling signal is hard to handle in a mathematical sense, it is quite a good idea to represent it as Fourier series and then transform it to the frequency domain.\\
+As the sampling signal consisting of a dirac delta is hard to handle in a mathematical sense, it is quite a good idea to represent it as Fourier series and then transform it to the frequency domain.\\
 The Fourier Series of $s(t)$ is determined by:
 \begin{eqnarray*}
 s(t) & = & \sum_{k=-\infty}^{\infty} A_k \* e^{j2\pi k t \* \frac{1}{T}}
