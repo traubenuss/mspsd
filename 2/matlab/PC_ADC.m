@@ -42,17 +42,9 @@ s_SFDR = 20*log10(s_SFDR);
 
 %% THD
 
-harmonicindizes = (index-1) .* (2:6);%, index .* (-2:-1:-6) +2]
+harmonicindizes = (index-1) .* (2:6);
 harmonicindizes = mod(harmonicindizes, M);
 harmonicindizes = harmonicindizes + 1;
-
-% figure;
-% stem(X_NAD, 'r');
-% hold on;
-% stem(harmonicindizes, X(harmonicindizes), 'g');
-% ylabel('X[k]');
-% xlabel('k');
-
 
 
 s_THD =  sqrt(1/M.^2 * 2 * sum(X(harmonicindizes).^2))/A_rms;
