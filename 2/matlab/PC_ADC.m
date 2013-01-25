@@ -19,34 +19,35 @@ s_W = 2*pi*(index-1)/length(X);
 
 
 %set signal to 0 (2 components in the spectrum)
+%The remaining compoments are noise and distortion
 X_NAD = X;
 X_NAD(index) = 0;
 X_NAD(end-index+2) = 0;
 
 
 %determine RMS value of signal
-A_rms = 1/M*sqrt(2*abs(A)^2);
+A_rms = 1/M*sqrt(2*A^2);
 
-s_SINAD = 1/sqrt(M*(M-1)) * sqrt(sum(abs(X_NAD).^2));
-s_SINAD = abs(A_rms)/s_SINAD;
+s_SINAD = 1/sqrt(M*(M-1)) * sqrt(sum(X_NAD.^2));
+s_SINAD = A_rms/s_SINAD;
 s_SINAD = 20*log10(s_SINAD);
 
 
 %% SFDR
 
-s_SFDR = A/(max(abs(X_NAD)));
+s_SFDR = A/(max(X_NAD));
 s_SFDR = 20*log10(s_SFDR);
 
 
 
 %% THD
 
-harmonicindizes = (index-1) .* (2:6);%, index .* (-2:-1:-6) +2]
+harmonicindizes = (index-1) .* (2:6);
 harmonicindizes = mod(harmonicindizes, M);
-harmonicindizes = harmonicindizes + 1
+harmonicindizes = harmonicindizes + 1;
 
 
-s_THD =  sqrt(1/M.^2 * 2 * sum(abs(X(harmonicindizes)).^2))/A_rms;
+s_THD =  sqrt(1/M.^2 * 2 * sum(X(harmonicindizes).^2))/A_rms;
 s_THD = 20*log10(s_THD);
 
 

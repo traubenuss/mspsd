@@ -5,11 +5,6 @@ clc;
 load('ADC_data.mat');
 
 
-%call PC_ADC for first signal:
-%[s_W, s_SINAD, s_SFDR, s_THD] = PC_ADC(m_Signal(:,1));
-
-
-
 
 s_W = zeros(1,size(m_Signal,2));
 s_SINAD = zeros(1,size(m_Signal,2));
@@ -25,7 +20,7 @@ figure;
 plot(s_W, s_SINAD, 'r');
 hold on;
 plot(s_W, s_SFDR, 'g');
-plot(s_W, s_THD, 'b');
+plot(s_W, -s_THD, 'b');
 
 legend('SINAD', 'SFDR', '-THD');
 xlabel('s_w');

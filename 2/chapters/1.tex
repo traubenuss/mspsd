@@ -2,19 +2,18 @@
 
 \subsection{The System}
 
-To design the desired analogue filter as digital equivalent, aliasing is always the first thing to think of. In the case given in this assignment, the signal is already band limited and the sampling frequency is higher than the double of the band limit of the input signal. So it can be passed on applying further methods to prevent aliasing.
+To design the desired analogue filter as digital equivalent, aliasing is always the first thing to think of. In the case given in this assignment, the signal is already band limited and the sampling frequency is higher than the double of the band limit of the input signal. So it can be passed on applying further design constraints to prevent aliasing.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{pics/drawing.png}
+\caption{The discrete time system as equivalent to the analogue filter}
+\label{fig:draw}
+\end{figure}
 
 In this drawing shown in figure \ref{fig:draw}, the DAC is supposed to have already an analogue reconstruction filter implemented at the output.\\
 In practical experience also the necessary processing times of the ADC and DAC must be taken into account, but as there are no further information on these devices, their processing times are supposed to be equal to zero.\\
 As already mentioned that the input signal is band-limited, the discrete-time filter $H(e^{j\omega})$ is given by:
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=\textwidth]{pics/drawing.png}
-\caption{The discrete time system as equivalent to the analogue filter}
-\label{fig:draw}
-\end{figure}
 
 \begin{equation}
 H(e^{j \omega}) = H(j \Omega) |_{\Omega = \frac{\omega}{T}} = e^{-j\Omega \Delta T} |_{\Omega = \frac{\omega}{T}} = e^{-j \frac{\omega}{T} \Delta T} = e^{-j \omega \Delta}
@@ -40,12 +39,12 @@ By running the script, a minimum filter order of $N=6$ leading to an approximati
 \label{fig:freqz}
 \end{figure}
 
-Figure \ref{fig:freqz} shows the frequency responses of the desired filter, the approximated filter with $N=6$ in the relevant band and the don't care band. As you can see, the linear phase can be matched perfectly, whereas the magnitudes are slightly different from the desired filter, especially around $-0.8\pi$ and $0.8\pi$. Additionally, the squared error in $dB$ over the normalized frequency is plotted in figure \ref{fig:error}. The maximum error (worst case) is located exactly at $-0.8\pi$ and $0.8\pi$ with a value of $-48.95dB$.
+Figure \ref{fig:freqz} shows the frequency responses of the desired filter, the approximated filter with $N=6$ in the relevant band and the don't care band. Its clear to see, that the linear phase can be matched perfectly (and so the desired time delay), whereas the magnitudes are slightly different from the desired filter, especially around $-0.8\pi$ and $0.8\pi$. Additionally, the squared error in $dB$ over the normalized frequency is plotted in figure \ref{fig:error}. The maximum error (worst case) is located exactly at $-0.8\pi$ and $0.8\pi$ with a value of $-48.95dB$.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{pics/fig2.eps}
-\caption{The squared error of the filter design}
+\caption{The squared error of the filter design. The red part of the line indicate the relevant frequency band}
 \label{fig:error}
 \end{figure}
 
