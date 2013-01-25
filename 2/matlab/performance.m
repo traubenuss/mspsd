@@ -25,7 +25,7 @@ figure;
 plot(s_W, s_SINAD, 'r');
 hold on;
 plot(s_W, s_SFDR, 'g');
-plot(s_W, s_THD, 'b');
+plot(s_W, -s_THD, 'b');
 
 legend('SINAD', 'SFDR', '-THD');
 xlabel('s_w');
