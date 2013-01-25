@@ -81,6 +81,11 @@ But as you can see, this equation is different than the Equation \ref{eq:sysz}.
 Y(z) \* [a_1 - a_2 \* z^{-1}]= X(z) \* [b_2 \* z^{-1} + b_1] + z^{-k}b_0
 \end{equation}
 
+
+Because the system ist time-variant and non-linear, the system cannot be described by an impulse
+response $h[n]$. We could of course calculate the output $y[n]$, if $x[n] = \delta[n]$, but
+this would not be an overall valid impulse response.
+
 \paragraph{c)}
 
 \begin{equation}
@@ -104,6 +109,41 @@ The dirac-delta $\delta(t-\tau - \hat{\tau})$ is nonzero for $\hat{\tau} = t-\ta
 \paragraph{d)}
 
 
-The second impulse response
+The first impulse response is time-invariant and the second impulse response is time-variant.
+
+\textbf{Proof} that the second impulse response is time-variant.
+
+\begin{equation}
+h(t,\hat{\tau}) = e^{\frac{t}{3}}u(t)
+\end{equation}
+
+
+In order that a system is a System is time-invariant it has to fulfill the following condition:
+
+For any signal $x(t)$:
+\begin{equation}
+ y(t) = H\{x(t)\} \Rightarrow y(t-t_0) = y'(t) = H\{x(t-t_0)\}
+\end{equation}
+
+Let $x(t)$ be an dirac impulse $\delta(t)$.
+
+\begin{equation}
+ y(t) = \int_{-\infty}^{\infty} h(t,\hat{\tau}) \* \delta(t-\hat{\tau}) d\hat{\tau} = h(t,t) = e^{\frac{t}{3}}u(t)
+\end{equation}
+
+If we now shift the input $x(t)$ by $t_0$, we get:
+
+$$
+x(t-t_0) = \delta(t-t_0)
+$$
+
+\begin{equation}
+ y'(t) = \int_{-\infty}^{\infty} h(t,\hat{\tau}) \* \delta(t-t_0-\hat{\tau}) d\hat{\tau} = h(t,t-t_0) = e^{\frac{t}{3}}u(t)
+\end{equation}
+
+The system is time-variant since, $y'(t) \neq y(t-t_0)$.
+
+
+
 
 
